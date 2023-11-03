@@ -96,8 +96,8 @@ export default function MiniDrawer({ open, setOpen }) {
                 <Divider />
                 <List>
                     {AdminJSON.map((val, index) => (
-                        <Link className="navLinks" to={val.path} onClick={() => handleNavClick(val.openMenu)} >
-                            <ListItem key={val.path} disablePadding sx={{ display: 'block' }}>
+                        <Link key={index} className="navLinks" to={val.path} onClick={() => handleNavClick(val.openMenu)} >
+                            <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     className={val.path == location.pathname ? "active" : ""}
                                     sx={{
@@ -123,9 +123,9 @@ export default function MiniDrawer({ open, setOpen }) {
                             </ListItem>
                             <Collapse sx={{ pl: "20px" }} in={childOpen == val.openMenu} timeout="auto" unmountOnExit>
                                 {
-                                    val.child && val.child.map(val => {
+                                    val.child && val.child.map((val, ind) => {
                                         return (
-                                            <Link className="navLinks" to={val.path}>
+                                            <Link key={ind} className="navLinks" to={val.path}>
                                                 <List component="div" disablePadding>
                                                     <ListItem className={val.path == location.pathname ? "active" : ""}>
                                                         <ListItemIcon>

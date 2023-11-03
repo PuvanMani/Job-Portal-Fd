@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import React, { useState } from 'react'
 import Navbar from '../menubar/navbar'
 import MiniDrawer from '../sidebar/sidebar'
-import Dash from '../../pages/dashboad/dash'
+import Dashboard from '../../pages/dashboad/dashboard'
 import { Login } from '@mui/icons-material'
 import { Route, Routes } from 'react-router-dom'
 
@@ -18,7 +18,7 @@ function Layout() {
                 <Grid container>
                     <Grid item xs={12}>
                         <Routes>
-                            <Route path="/" element={<Dash />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/auth/login" element={<Login />} />
                         </Routes>
                     </Grid>
