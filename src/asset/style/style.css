@@ -1,0 +1,26 @@
+.table-responsive .badge {
+    padding: 0.8em 0.8em;
+    font-size: 80%;
+    width: 70%;
+}
+
+.navLinks {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navLinks:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.css-cveggr-MuiListItemIcon-root {
+    min-width: 0 !important;
+}
+
+.active {
+    background-color: rgb(37, 182, 254) !important;
+    border-radius: 8px !important;
+    margin-right: 2px !important;
+    color: white !important;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { Form, Button } from 'react-bootstrap';
 // import { NavLink, useHistory } from "react-router-dom";
-import { BaseURL } from '../config/AxiosConfig'; // Import the authentication function
+import { BaseURL } from '../../config/AxiosConfig'; // Import the authentication function
 import { Box, Button, Container, FormLabel, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -74,9 +74,9 @@ const Login = () => {
       <Box sx={{ p: 3, width: "100%", minHeight: "40vh", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;", display: "flex", flexDirection: "column", justifyContent: "space-around", borderRadius: "12px" }}>
         <Typography variant="h5" component='h5'>Login</Typography>
         <FormLabel>Email</FormLabel>
-        <TextField variant="outlined" placeholder="Email" size="small" fullWidth onChange={changeHandler} />
+        <TextField variant="outlined" name="email" placeholder="Email" size="small" fullWidth onChange={changeHandler} />
         <FormLabel>Password</FormLabel>
-        <TextField variant="outlined" placeholder="Password" size="small" fullWidth onChange={changeHandler} />
+        <TextField variant="outlined" name="password" placeholder="Password" size="small" fullWidth onChange={changeHandler} />
         <LoadingButton variant="contained" disableElevation fullWidth sx={{ mt: "10px" }}>Login</LoadingButton>
       </Box>
     </Container>

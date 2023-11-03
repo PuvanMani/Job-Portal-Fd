@@ -1,12 +1,9 @@
-import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-
+import Layout from "./component/layout/layout";
+import "./asset/style/style.css"
 function App() {
   return (
     <div>
-      <Routes>
-        <Route path="/auth/login" element={<Login />} />
-      </Routes>
+      <Layout />
     </div>
   );
 }
