@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BaseURL } from '../user-pages/api';
+import { BaseURL } from '../../config/AxiosConfig';
 import moment from 'moment';
 
 
@@ -16,7 +16,7 @@ export const colourOptions = [
   { value: "silver", label: "Silver" }
 ];
 
-export class RecurBasicElements extends Component {
+export class ViewProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,13 +51,8 @@ export class RecurBasicElements extends Component {
     return (
       <div>
         <div className="page-header">
-          <h3 className="page-title">Profile Details </h3>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Recuritement</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Add Profile</li>
-            </ol>
-          </nav>
+          <h3 style={{ marginBottom: "20px" }}>Profile Details </h3>
+
         </div>
         <div className="row">
           <div className="col-12 grid-margin stretch-card">
@@ -281,4 +276,4 @@ export class RecurBasicElements extends Component {
   }
 }
 
-export default RecurBasicElements;
+export default ViewProfile;

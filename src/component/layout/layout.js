@@ -9,6 +9,7 @@ import JobView from '../../pages/Job Moduel/JobList';
 import Addjob from '../../pages/Job Moduel/JobForm';
 import MyDashboard from '../../pages/dashboad/Dashboard';
 import ProfileDetails from '../../pages/Recuritement Module/ProfileDetails';
+import { ViewProfile } from '../../pages/Recuritement Module/ViewProfile';
 
 function Layout() {
     const [open, setOpen] = useState(false)
@@ -29,6 +30,7 @@ function Layout() {
                             <Route path="/jobs/view-job" element={<JobView />} />
                             <Route path="/profile/add-profile/create" element={<ProfileDetails />} />
                             <Route path="/profile/add-profile/:action" element={<ProfileDetails />} />
+                            <Route path="/profile/view-profile" element={<ViewProfile />} />
                             <Route path="/*" element={<Navigate to="/dashboard" />} />
                         </Routes>
                     </Grid>
