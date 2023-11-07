@@ -1,0 +1,13 @@
+
+
+.custom-modal {
+    width: auto;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  .custom-modal .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  

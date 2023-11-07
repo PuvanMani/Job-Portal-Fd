@@ -4,11 +4,16 @@ import React, { useState, useEffect } from "react";
 import { BaseURL } from '../../config/AxiosConfig'; // Import the authentication function
 import { Box, Button, Container, FormLabel, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
-  // const history = useHistory()
+const LoginPage = () => {
+  const navigate = useNavigate()
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [error, setError] = useState({
+    email: false,
+    password: false,
+  })
   const [user, setUserDetails] = useState({
     email: "",
     password: "",
@@ -22,65 +27,56 @@ const Login = () => {
     });
   };
 
-  const validateForm = (values) => {
-    const error = {};
-    const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.email) {
-      error.email = "Email is required";
-    } else if (!regex.test(values.email)) {
-      error.email = "Please enter a valid email address";
-    }
-    if (!values.password) {
-      error.password = "Password is required";
-    }
-    return error;
-  };
+
 
   const loginHandler = async (e) => {
+    let regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     e.preventDefault();
-    setFormErrors(validateForm(user));
     setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0) {
-      try {
-        const { data } = await BaseURL.post('/auth/login', user)
-        if (data.status) {
-          BaseURL.defaults.headers.token = data.token;
-          handleSuccessfulLogin(data);
-        } else {
-          alert(data.message);
-        }
-      } catch (error) {
-        alert('An error occurred during login');
+    let err = {
+      email: user.email.trim() == "" || !regex.test(user.email),
+      password: user.password.trim() == ""
+    }
+
+    if (Object.values(err).some(val => val == true)) {
+      setIsSubmit(false);
+      setError(err)
+    } else {
+      const { data } = await BaseURL.post('/auth/login', user)
+      if (data.status) {
+        setIsSubmit(false);
+        BaseURL.defaults.headers.token = data.token;
+        const { user } = data;
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('name', user.fname + " " + user.lname)
+        localStorage.setItem('userid', user.user_id)
+        localStorage.setItem('role', user.role);
+        navigate('/dashboard')
+      } else {
+        alert(data.message);
+        setIsSubmit(false)
       }
     }
-  };
+  }
 
-
-  const handleSuccessfulLogin = (users) => {
-    const { user } = users
-    localStorage.setItem('token', users.token)
-    localStorage.setItem('name', user.fname + " " + user.lname)
-    localStorage.setItem('userid', user.user_id)
-    localStorage.setItem('role', user.role)
-    // history.push('/dashboard')
-  };
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      // history.push('/dashboard')
+      navigate('/dashboard')
     }
   }, [])
   return (
     <Container maxWidth="sm" sx={{ minHeight: "95vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <Box sx={{ p: 3, width: "100%", minHeight: "40vh", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;", display: "flex", flexDirection: "column", justifyContent: "space-around", borderRadius: "12px" }}>
+      <Box sx={{ p: 3, width: "100%", minHeight: "40vh", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;", display: "flex", flexDirection: "column", justifyContent: "space-around", borderRadius: "12px", backgroundColor: "#FFF" }}>
         <Typography variant="h5" component='h5'>Login</Typography>
         <FormLabel>Email</FormLabel>
-        <TextField variant="outlined" name="email" placeholder="Email" size="small" fullWidth onChange={changeHandler} />
+        <TextField variant="outlined" name="email" error={error.email} helperText={error.email ? "Email is Required" : ""} placeholder="Email" size="small" fullWidth onChange={changeHandler} />
         <FormLabel>Password</FormLabel>
-        <TextField variant="outlined" name="password" placeholder="Password" size="small" fullWidth onChange={changeHandler} />
-        <LoadingButton variant="contained" disableElevation fullWidth sx={{ mt: "10px" }}>Login</LoadingButton>
+        <TextField variant="outlined" name="password" error={error.password} helperText={error.password ? "Email is Required" : ""} placeholder="Password" size="small" fullWidth onChange={changeHandler} />
+        <LoadingButton variant="contained" loading={isSubmit} onClick={loginHandler} disableElevation fullWidth sx={{ mt: "10px" }}>Login</LoadingButton>
+        <Link to='/auth/signup' style={{ marginTop: "10px", textDecoration: "underline" }}>I don't have a account, Register.</Link>
       </Box>
     </Container>
   );
 };
 
-export default Login;
+export default LoginPage;

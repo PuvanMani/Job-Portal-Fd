@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import MyDataGrid from '../../component/table/datagrid';
-import { Box, Button, Dialog, FormLabel, IconButton, TextField, Tooltip } from '@mui/material';
-import { BaseURL } from '../../config/AxiosConfig'
-function Dashboard() {
+import { Box, Dialog, FormLabel, TextField } from '@mui/material';
+import { BaseURL } from '../../config/AxiosConfig';
+import Datatable from '../../component/table/datatable';
+
+function MyDashboard() {
     const [userData, setuserData] = useState([])
     const [open, setopen] = useState(false)
     const [updateData, setupdateData] = useState({
@@ -12,65 +13,42 @@ function Dashboard() {
     })
     const columns = [
         {
-            field: 'user_id',
-            headerName: 'User ID',
-            width: 150,
-        },
-        {
             field: 'fname',
-            headerName: 'Full name',
+            headerName: 'First name',
             sortable: false,
-            width: 160,
-            valueGetter: (params) =>
-                `${params.row.fname || ''} ${params.row.lname || ''}`,
         },
         {
             field: 'lname',
             headerName: 'Last name',
-            width: 150,
         },
         {
             field: 'email',
             headerName: 'Email',
-            width: 200,
         },
         {
             field: 'role',
             headerName: 'Role',
-            width: 200,
-        },
-        {
-            field: 'action',
-            headerName: 'Action',
-            width: 200,
-            renderCell: (params) => (
-                <>
-                    <IconButton onClick={() => handleEdit(params.id)}>
-                        <Tooltip title="Edit" arrow>
-                            <span style={{ color: "blue" }} className="material-symbols-outlined">
-                                edit_note
-                            </span>
-                        </Tooltip>
-                    </IconButton>
-                    <IconButton onClick={() => handleDelete(params.id)}>
-                        <Tooltip title="Delete" arrow>
-                            <span style={{ color: "red" }} className="material-symbols-outlined">
-                                delete
-                            </span>
-                        </Tooltip>
-                    </IconButton>
-                </>
-            ),
-        },
+        }
     ];
     const ListUserData = () => {
-        BaseURL.get('user/list').then((res) => {
-            if (res.data.message) {
-                setuserData([...res.data.message])
-            } else {
-                alert(res.data.message)
-            }
-        })
+        if (localStorage.getItem("role") == "Admin") {
+            BaseURL.get('user/list').then((res) => {
+                if (res.data.message) {
+                    setuserData([...res.data.message])
+                } else {
+                    alert(res.data.message)
+                }
+            })
+        } else {
+            BaseURL.get(`/user/listbyid/${localStorage.getItem("userid")}`).then((res) => {
+                if (res.data.message) {
+                    setuserData([...res.data.message])
+                } else {
+                    alert(res.data.message)
+                }
+            })
+        }
+
     }
     const handleDelete = async (userid) => {
         BaseURL.delete(`/user/delete/${userid}`).then(res => {
@@ -103,7 +81,101 @@ function Dashboard() {
     return (
         <Box>
             <h2>Dashboard</h2>
-            <MyDataGrid rows={userData} columns={columns} id="user_id" />
+            <div class="row g-6 mb-6">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Today Jobs</span>
+                                    <span class="h3 font-bold mb-0">12</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                        <i class="bi bi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 mb-0 text-sm">
+                                <span class="badge badge-pill bg-soft-success text-success me-2">
+                                    <i class="bi bi-arrow-up me-1"></i>13%
+                                </span>
+                                <span class="text-nowrap text-xs text-muted">Since last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">New users</span>
+                                    <span class="h3 font-bold mb-0">215</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 mb-0 text-sm">
+                                <span class="badge badge-pill bg-soft-success text-success me-2">
+                                    <i class="bi bi-arrow-up me-1"></i>30%
+                                </span>
+                                <span class="text-nowrap text-xs text-muted">Since last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total company</span>
+                                    <span class="h3 font-bold mb-0">186</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                                        <i class="bi bi-building"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 mb-0 text-sm">
+                                <span class="badge badge-pill bg-soft-danger text-danger me-2">
+                                    <i class="bi bi-arrow-down me-1"></i>-5%
+                                </span>
+                                <span class="text-nowrap text-xs text-muted">Since last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Jobs</span>
+                                    <span class="h3 font-bold mb-0">256</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                        <i class="bi bi-briefcase"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 mb-0 text-sm">
+                                <span class="badge badge-pill bg-soft-success text-success me-2">
+                                    <i class="bi bi-arrow-up me-1"></i>10%
+                                </span>
+                                <span class="text-nowrap text-xs text-muted">Since last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Datatable rows={userData} columns={columns} EditFunc={handleEdit} DeleteFunct={handleDelete} id="user_id" />
             <Dialog open={open} maxWidth="md">
                 <Box sx={{ p: 3 }}>
                     <h3 style={{ padding: 0, margin: 0 }}>User Details</h3>
@@ -113,12 +185,14 @@ function Dashboard() {
                     <TextField sx={{ mb: "10px" }} value={updateData["lname"]} onChange={(e) => setupdateData({ ...updateData, lname: e.target.value })} variant='outlined' fullWidth size='small' placeholder='Name' />
                     <FormLabel>Email</FormLabel>
                     <TextField sx={{ mb: "10px" }} value={updateData["email"]} disabled variant='outlined' fullWidth size='small' placeholder='Name' />
-                    <Button variant='outlined' sx={{ mr: "10px" }} disableElevation onClick={() => setopen(false)}>Close</Button>
-                    <Button variant='contained' disableElevation onClick={handleUpdate}>Update</Button>
+                    <div style={{ textAlign: "right" }}>
+                        <button style={{ padding: "5px 10px", marginRight: "10px", mr: "10px" }} variant='outlined' className='btn btn-danger' disableElevation onClick={() => setopen(false)}>Close</button>
+                        <button style={{ padding: "5px 10px" }} variant='contained' className='btn btn-primary' disableElevation onClick={handleUpdate}>Update</button>
+                    </div>
                 </Box>
             </Dialog>
         </Box>
     )
 }
 
-export default Dashboard;
+export default MyDashboard;

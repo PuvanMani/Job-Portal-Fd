@@ -2,12 +2,12 @@ export const EmployeeJSON = [
     {
         "name": "Dashboard",
         "path": "/dashboard",
-        "icon": "mdi mdi-home menu-icon",
+        "icon": "bi bi-house-door",
     },
     {
         "name": "Profile Details",
-        "path": "/profiledetails",
-        "icon": "mdi mdi-developer-board menu-icon",
+        "path": "#",
+        "icon": "bi bi-person",
         "openMenu": "ProfileToggleOpen",
         "child": [
             {
@@ -22,8 +22,8 @@ export const EmployeeJSON = [
     },
     {
         "name": "Jobs",
-        "path": "/jobs",
-        "icon": "mdi mdi-developer-board menu-icon",
+        "path": "#",
+        "icon": "bi bi-briefcase",
         "openMenu": "JobToggleOpen",
         "child": [
             {
@@ -42,12 +42,12 @@ export const RecruiterJSON = [
     {
         "name": "Dashboard",
         "path": "/dashboard",
-        "icon": "mdi mdi-home menu-icon",
+        "icon": "bi bi-house-door",
     },
     {
         "name": "Company Profile",
-        "path": "/companyprofile",
-        "icon": "mdi mdi-developer-board menu-icon",
+        "path": "#",
+        "icon": "bi bi-building",
         "openMenu": "CompanyToggleOpen",
         "child": [
             {
@@ -62,8 +62,8 @@ export const RecruiterJSON = [
     },
     {
         "name": "Jobs",
-        "path": "/jobs",
-        "icon": "mdi mdi-developer-board menu-icon",
+        "path": "#",
+        "icon": "bi bi-briefcase",
         "openMenu": "JobToggleOpen",
         "child": [
             {
@@ -79,7 +79,7 @@ export const RecruiterJSON = [
     {
         "name": "Applied Canditates",
         "path": "/applied-canditates",
-        "icon": "mdi mdi-home menu-icon",
+        "icon": "bi bi-house-door",
     }
 
 ]
@@ -87,7 +87,7 @@ export const AdminJSON = [
     {
         "name": "Dashboard",
         "path": "/dashboard",
-        "icon": "home",
+        "icon": "bi bi-house-door",
     },
     // {
     //     "name": "Profile Details",
@@ -108,7 +108,7 @@ export const AdminJSON = [
     {
         "name": "Company Profile",
         "path": "#",
-        "icon": "lan",
+        "icon": "bi bi-building",
         "openMenu": "CompanyToggleOpen",
         "child": [
             {
@@ -126,7 +126,7 @@ export const AdminJSON = [
     {
         "name": "Jobs",
         "path": "#",
-        "icon": "work",
+        "icon": "bi bi-briefcase",
         "openMenu": "JobToggleOpen",
         "child": [
             {
@@ -144,12 +144,12 @@ export const AdminJSON = [
     {
         "name": "Applied Canditates",
         "path": "/applied-canditates",
-        "icon": "group",
+        "icon": "bi bi-person",
     },
     {
         "name": "Recruiters",
         "path": "/list-recruiters",
-        "icon": "shield_person",
+        "icon": "bi bi-people",
     }
 
 ]
