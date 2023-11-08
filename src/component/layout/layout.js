@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../menubar/navbar';
 import MiniDrawer from '../sidebar/sidebar';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -13,15 +13,18 @@ import { ViewProfile } from '../../pages/Recuritement Module/ViewProfile';
 
 function Layout() {
     const [open, setOpen] = useState(false)
+
     return (
         <Grid container>
-            <Grid item xs={2}>
+            <Grid md={2.8} lg={2} sx={{ position: "relative", display: { xs: "none", md: "block" } }}>
                 <MiniDrawer open={open} setOpen={setOpen} />
-                <Navbar open={open} setOpen={setOpen} />
             </Grid>
-            <Grid item xs={open ? 10 : 12} sx={{ p: "25px", mt: open ? "60px" : "" }}>
+            <Grid item xs={12} md={9.2} lg={10} >
                 <Grid container>
                     <Grid item xs={12}>
+                        <Navbar open={open} setOpen={setOpen} />
+                    </Grid>
+                    <Grid item xs={12} sx={{ p: "20px", mt: "10px" }}>
                         <Routes>
                             <Route path="/dashboard" element={<MyDashboard />} />
                             <Route path="/company/view-company" element={<CompanyList />} />
@@ -36,7 +39,7 @@ function Layout() {
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 

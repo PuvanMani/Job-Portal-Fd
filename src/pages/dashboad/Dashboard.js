@@ -175,7 +175,7 @@ function MyDashboard() {
                     </div>
                 </div>
             </div>
-            <Datatable rows={userData} columns={columns} EditFunc={handleEdit} DeleteFunct={handleDelete} id="user_id" />
+            <Datatable rows={userData} columns={columns} EditFunc={handleEdit} DeleteFunct={handleDelete} Delete={localStorage.getItem("role") == "Admin" ? false : true} id="user_id" />
             <Dialog open={open} maxWidth="md">
                 <Box sx={{ p: 3 }}>
                     <h3 style={{ padding: 0, margin: 0 }}>User Details</h3>

@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -35,7 +32,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 export default function MiniDrawer({ open, setOpen }) {
-    const theme = useTheme();
     const location = useLocation()
     const [childOpen, setchildOpen] = useState("");
 
@@ -52,21 +48,24 @@ export default function MiniDrawer({ open, setOpen }) {
             <CssBaseline />
             <Drawer sx={{
                 width: drawerWidth,
+                display: { xs: 'block', md: 'none' },
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
+
                     boxSizing: 'border-box',
                 },
             }}
-                variant="persistent"
+                variant="presentation"
                 anchor="left"
+                onClose={() => setOpen(false)}
                 open={open}>
                 <DrawerHeader>
                     <Toolbar sx={{ p: 1 }}>
                         <img src={brand} alt='Brand' width="90%" />
                     </Toolbar>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    <IconButton sx={{ backgroundColor: "#ADD8E6", p: "1px 7px 0px 7px" }} onClick={handleDrawerClose}>
+                        <i class="bi bi-x"></i>
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
@@ -118,6 +117,71 @@ export default function MiniDrawer({ open, setOpen }) {
                 </List>
             </Drawer>
             <DrawerHeader />
+
+
+
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: "100%", position: "absolute", minHeight: "100vh" },
+                }}
+                open={true}
+            >
+                <DrawerHeader>
+                    <Toolbar sx={{ p: 1 }}>
+                        <img src={brand} alt='Brand' width="90%" />
+                    </Toolbar>
+
+                </DrawerHeader>
+                <Divider />
+                <List>
+                    {(localStorage.getItem("role") == "Admin" ? AdminJSON : localStorage.getItem("role") == "Recruiter" ? RecruiterJSON : EmployeeJSON).map((val, index) => (
+                        <Link key={index} className="navLinks" to={val.path} onClick={() => handleNavClick(val.openMenu)} >
+                            <ListItem disablePadding sx={{ display: 'block' }}>
+                                <ListItemButton
+                                    className={val.path == location.pathname ? "active" : ""}
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        mb: 1
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: 3,
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <i className={val.icon}></i>
+                                    </ListItemIcon>
+                                    <ListItemText primary={val.name} />
+                                </ListItemButton>
+                            </ListItem>
+                            <Collapse sx={{ pl: "20px" }} in={childOpen == val.openMenu} timeout="auto" unmountOnExit>
+                                {
+                                    val.child && val.child.map((val, ind) => {
+                                        return (
+                                            <Link key={ind} className="navLinks" to={val.path}>
+                                                <List component="div" disablePadding>
+                                                    <ListItem className={val.path == location.pathname ? "active" : ""}>
+                                                        <ListItemIcon>
+                                                            <i className={val.icon}></i>
+                                                        </ListItemIcon>
+                                                        <ListItemText sx={{ pl: "10px" }} primary={val.name} />
+                                                    </ListItem>
+                                                </List>
+                                            </Link>
+                                        )
+                                    })
+                                }
+                            </Collapse>
+                        </Link>
+                    ))}
+                </List>
+            </Drawer>
         </Box>
     );
 }
