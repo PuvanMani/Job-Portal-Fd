@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { DeleteAlert } from '../../pages/sweetalert/sweetalert'
 
 function Datatable({ rows, columns, EditFunc, DeleteFunct, id, applyButton, Delete }) {
 
@@ -29,7 +30,11 @@ function Datatable({ rows, columns, EditFunc, DeleteFunct, id, applyButton, Dele
                                         </td>) : (
                                             <td>
                                                 <button style={{ padding: "5px 10px", marginRight: "10px" }} className='btn btn-primary' onClick={() => EditFunc(row[id])}>Edit</button>
-                                                {!Delete ? <button style={{ padding: "5px 10px" }} className='btn btn-danger' onClick={() => DeleteFunct(row[id])}>Delete</button> : ""}
+                                                {!Delete ? <button style={{ padding: "5px 10px" }} className='btn btn-danger' onClick={async () => {
+                                                    if (await DeleteAlert()) {
+                                                        DeleteFunct(row[id])
+                                                    }
+                                                }}>Delete</button> : ""}
                                             </td>)
                                     }
                                 </tr>)

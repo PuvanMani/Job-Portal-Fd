@@ -98,6 +98,7 @@ function JobView() {
       salary,
       skills,
       status,
+      contact
     }
     if (Object.values(err).some(val => val == true)) {
       setError(err);

@@ -78,7 +78,7 @@ export const RecruiterJSON = [
     },
     {
         "name": "Applied Canditates",
-        "path": "/applied-canditates",
+        "path": "/apllied/view-aplliedcabdidate",
         "icon": "bi bi-house-door",
     }
 
@@ -143,7 +143,7 @@ export const AdminJSON = [
     },
     {
         "name": "Applied Canditates",
-        "path": "/applied-canditates",
+        "path": "/apllied/view-aplliedcabdidate",
         "icon": "bi bi-person",
     },
     {

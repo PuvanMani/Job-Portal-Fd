@@ -5,6 +5,7 @@ import { BaseURL } from '../../config/AxiosConfig'; // Import the authentication
 import { Box, Button, Container, FormLabel, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Link, useNavigate } from "react-router-dom";
+import { ErrorAlert } from "../sweetalert/sweetalert";
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ const LoginPage = () => {
     e.preventDefault();
     setIsSubmit(true);
     let err = {
-      email: user.email.trim() == "" || !regex.test(user.email),
+      email: user.email.trim() == "",
       password: user.password.trim() == ""
     }
 
@@ -42,18 +43,23 @@ const LoginPage = () => {
       setIsSubmit(false);
       setError(err)
     } else {
-      const { data } = await BaseURL.post('/auth/login', user)
-      if (data.status) {
-        setIsSubmit(false);
-        BaseURL.defaults.headers.token = data.token;
-        const { user } = data;
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('name', user.fname + " " + user.lname)
-        localStorage.setItem('userid', user.user_id)
-        localStorage.setItem('role', user.role);
-        navigate('/dashboard')
-      } else {
-        alert(data.message);
+      try {
+        const { data } = await BaseURL.post('/auth/login', user)
+        if (data.status) {
+          setIsSubmit(false);
+          BaseURL.defaults.headers.token = data.token;
+          const { user } = data;
+          localStorage.setItem('token', data.token)
+          localStorage.setItem('name', user.fname + " " + user.lname)
+          localStorage.setItem('userid', user.user_id)
+          localStorage.setItem('role', user.role);
+          navigate('/dashboard')
+        } else {
+          alert(data.message);
+          setIsSubmit(false)
+        }
+      } catch (errorAccur) {
+        ErrorAlert("Loging Error", errorAccur.response.data.message);
         setIsSubmit(false)
       }
     }
